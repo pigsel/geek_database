@@ -209,8 +209,51 @@ mysql> SELECT DISTINCT YEAR(created_at) FROM target_types;
 +------------------+
 1 row in set (0.00 sec)
 
+mysql> SELECT created_at, name FROM target_types;
++---------------------+-----------+
+| created_at          | name      |
++---------------------+-----------+
+| 2019-09-17 20:31:46 | media     |
+| 2019-09-17 20:34:46 | post      |
+| 2019-09-17 20:37:41 | message   |
+| 2019-09-17 20:43:12 | community |
++---------------------+-----------+
+4 rows in set (0.00 sec)
 
+mysql> UPDATE target_types SET id = id * 10;
+Query OK, 4 rows affected (0.01 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
 
+mysql> SELECT * FROM target_types;
++----+-----------+---------------------+
+| id | name      | created_at          |
++----+-----------+---------------------+
+| 10 | media     | 2019-09-17 20:31:46 |
+| 20 | post      | 2019-09-17 20:34:46 |
+| 30 | message   | 2019-09-17 20:37:41 |
+| 40 | community | 2019-09-17 20:43:12 |
++----+-----------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> TRUNCATE target_types;
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> SELECT * FROM target_types;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO target_types VALUES (DEFAULT, 'media', NOW());
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SELECT * FROM target_types;
++----+-------+---------------------+
+| id | name  | created_at          |
++----+-------+---------------------+
+|  1 | media | 2019-09-17 21:02:29 |
++----+-------+---------------------+
+1 row in set (0.00 sec)
+
+-- на этом пожалуй всё. 
+-- спасибо. 
 
 
 
