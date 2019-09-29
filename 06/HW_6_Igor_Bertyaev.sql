@@ -65,14 +65,27 @@ limit 10) as su;
 
 
 -- 4/ Определить кто больше поставил лайков (всего) - мужчины или женщины?
-
+select 'women' as 'sex', count(user_id) as li
+from likes where user_id in (
+select user_id from profiles WHERE sex = 'W')
+UNION
+select 'men' as 'sex', count(user_id) as li
+from likes where user_id in (
+select user_id from profiles WHERE sex = 'M')
+UNION
+select 'total' as 'sex', count(user_id) as li
+from likes;
 
 
 -- 5/ Найти 10 пользователей, которые проявляют наименьшую активность
 --  в использовании социальной сети.
-
-
-
+-- сделал самый простой вариант по количеству постов
+SELECT (SELECT CONCAT(firstname, ' ', lastname) 
+        FROM users 
+        WHERE user_id = id) as users, count(*) as activity
+from posts
+GROUP BY user_id order by activity
+limit 10;
 
 
 -- конец
