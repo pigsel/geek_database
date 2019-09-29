@@ -7,13 +7,40 @@
 -- 1/ Проанализировать запросы, которые выполнялись на занятии, 
 -- определить возможные корректировки и/или улучшения (JOIN пока не применять).
 
+проанализировал, пока в целом понятно, но есть некоторые моменты не совсем ясные, 
+как в следующе задании например. надеюсь в дальейшем разобраться.
+
+
 -- 2/ Пусть задан некоторый пользователь.
 -- Из всех друзей этого пользователя найдите человека, 
 -- который больше всех общался с нашим пользоваетелем.
 
+-- сделал так будто нам задано имя 
+-- как номер пользователя заменить именем пока не сообразил, надеюсь пойму позднее.
+
+SELECT to_user_id, COUNT(*)
+  FROM messages WHERE from_user_id = (
+	SELECT id from users WHERE firstname = 'Christine' and lastname = 'Quitzon')
+      AND to_user_id IN (
+        SELECT friend_id from friendship WHERE user_id = (
+		  SELECT id from users WHERE firstname = 'Christine' and lastname = 'Quitzon')
+		    and status_id = 0
+		UNION 
+		SELECT user_id from friendship WHERE friend_id = (
+		  SELECT id from users WHERE firstname = 'Christine' and lastname = 'Quitzon')
+		    and status_id = 0
+      )
+GROUP by to_user_id
+LIMIT 1;
+
+
 -- 3/ Подсчитать общее количество лайков, которые получили 10 самых молодых пользователей.
 
+
+
 -- 4/ Определить кто больше поставил лайков (всего) - мужчины или женщины?
+
+
 
 -- 5/ Найти 10 пользователей, которые проявляют наименьшую активность
 --  в использовании социальной сети.
