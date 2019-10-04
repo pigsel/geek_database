@@ -1,24 +1,47 @@
 -- домашнее задание к уроку 7
 -- автор Игорь Бертяев
 
--- Тема “Сложные запросы”
+-- Тема “Сложные запросы” 
+-- Updated ! - добавлены версии join
 
 -- / 1. Составьте список пользователей users, 
 -- которые осуществили хотя бы один заказ orders в интернет магазине.
 SELECT name FROM users WHERE id in (
 SELECT user_id FROM orders);
 
+-- версия с join
+SELECT users.name
+  FROM users
+    JOIN orders
+  ON users.id = orders.user_id;
+
 
 -- / 2. Выведите список товаров products и разделов catalogs, который соответствует товару.
-SELECT description, (select name from catalogs where id = catalog_id) FROM products;
+SELECT name, (select name from catalogs where id = catalog_id) as catalog_name FROM products;
+
+-- версия с join
+SELECT products.name as product_name, catalogs.name as catalog_name
+  FROM products
+    JOIN catalogs
+  ON products.catalog_id = catalogs.id;
+
+
 
 -- / 3. (по желанию) Пусть имеется таблица рейсов flights (id, from, to) 
 -- и таблица городов cities (label, name). 
 -- Поля from, to и label содержат английские названия городов, 
 -- поле name — русское. Выведите список рейсов flights с русскими названиями городов.
 SELECT 
-(SELECT name FROM cities WHERE cities = `from`),  
-(SELECT name FROM cities WHERE cities = `to`)  
+(SELECT name FROM cities WHERE cities = `from`) as FROM_,  
+(SELECT name FROM cities WHERE cities = `to`) as TO_
 FROM flights;
 
--- после заданий 6го урока эти кажутся простыми
+-- версия с join
+SELECT c1.name as name_from, c2.name as name_to
+  FROM flights
+    JOIN cities c1
+     ON flights.from = c1.cities
+    JOIN cities c2
+     ON flights.to = c2.cities;
+
+-- конец
