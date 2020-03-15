@@ -9,11 +9,14 @@ headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 CAT_URL = 'https://5ka.ru/api/v2/categories/'
 
 def cat_links():
-    url_list = []
+    url_dict = {}
     categories = requests.get(CAT_URL, headers=headers)
     cat_dict = categories.json()
     for i in range(len(cat_dict)):
-        cat_dict[i].get('parent_group_name')
+        c_link = URL + '?categories=' + cat_dict[i].get('parent_group_code')
+        c_name = cat_dict[i].get('parent_group_name')
+        url_dict[c_name] = c_link
+    return url_dict
 
 
 def x5ka(url):
@@ -28,4 +31,6 @@ def x5ka(url):
 
 if __name__ == '__main__':
      #data = x5ka(URL)
-     cat_links()
+     li = cat_links()
+     for key in li.keys():
+         print(key, li[key])
